@@ -4,8 +4,10 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: eu-north-1
+  ECR_REPOSITORY: gitlab-runners
+  IMAGE_TAG: latest
   EKS_CLUSTER: gitlab-runner-eks-cluster
-  TOKEN: ${{ secrets.TOKEN }}
+  GITLAB_TOKEN: ${{ secrets.TOKEN }}
   
 # Controls when the workflow will run
 on: 
@@ -51,10 +53,13 @@ jobs:
         run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} --kubeconfig ./runner-configuration/config
 
       - name: Apply Helm Chart
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: >
           helm upgrade gitlab-runner-test gitlab/gitlab-runner 
           --namespace gitlab-runner 
-          --set runnerRegistrationToken=${{ env.TOKEN }} 
+          --set runnerRegistrationToken=${{ env.GITLAB_TOKEN }}
+          --set gitlab-runner.init.image.repository=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           --values ./runner-configuration/values.yaml 
           --kubeconfig ./runner-configuration/config
       

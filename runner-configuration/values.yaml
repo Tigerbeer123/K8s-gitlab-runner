@@ -284,7 +284,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
-        image = "alpine:latest"
+        image = "ubuntu:16.04"
 
   ## Which executor should be used
   ##
