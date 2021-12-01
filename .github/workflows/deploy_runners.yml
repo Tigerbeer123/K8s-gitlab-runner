@@ -59,7 +59,6 @@ jobs:
           helm upgrade gitlab-runner-test gitlab/gitlab-runner 
           --namespace gitlab-runner 
           --set runnerRegistrationToken=${{ env.GITLAB_TOKEN }}
-          --set gitlab-runner.init.image.repository=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           --values ./runner-configuration/values.yaml 
           --kubeconfig ./runner-configuration/config
       

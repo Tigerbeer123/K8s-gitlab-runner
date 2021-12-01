@@ -57,6 +57,7 @@ gitlabUrl: https://gitlab.com/
 ##
 # runnerToken: ""
 #
+
 ## Unregister all runners before termination
 ##
 ## Updating the runner's chart version or configuration will cause the runner container
@@ -89,7 +90,7 @@ concurrent: 10
 ## Defines in seconds how often to check GitLab for a new builds
 ## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
 ##
-checkInterval: 30
+checkInterval: 10
 
 ## Configure GitLab Runner's logging level. Available values are: debug, info, warn, error, fatal, panic
 ## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
@@ -99,7 +100,7 @@ logLevel: "error"
 ## Configure GitLab Runner's logging format. Available values are: runner, text, json
 ## ref: https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
 ##
-# logFormat:
+logFormat: runner
 
 ## Configure GitLab Runner's Sentry DSN.
 ## ref https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-global-section
@@ -109,12 +110,13 @@ logLevel: "error"
 ## A custom bash script that will be executed prior to the invocation
 ## gitlab-runner process
 #
-#preEntrypointScript: |
-#  echo "hello"
+# preEntrypointScript: |
+#   echo "hello"
+
 
 ## For RBAC support:
 rbac:
-  create: false
+  create: true
 
   ## Define list of rules to be added to the rbac role permissions.
   ## Each rule supports the keys:
@@ -284,7 +286,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
-        image = "ubuntu:16.04"
+        image = "alpine:3.12"
 
   ## Which executor should be used
   ##
@@ -320,7 +322,7 @@ runners:
   # protected: true
 
    ## The name of the secret containing runner-token and runner-registration-token
-  # secret: gitlab-runner
+  secret: gitlab-runner
 
   ## Distributed runners caching
   ## ref: https://docs.gitlab.com/runner/configuration/autoscale.html#distributed-runners-caching
