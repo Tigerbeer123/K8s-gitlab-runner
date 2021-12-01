@@ -286,7 +286,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
-        image = "alpine:3.12"
+        image = "267235519122.dkr.ecr.eu-north-1.amazonaws.com/gitlab-runners:latest"
 
   ## Which executor should be used
   ##
