@@ -1,0 +1,68 @@
+name: Deploy_runners
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: eu-north-1
+  EKS_CLUSTER: gitlab-runner-eks-cluster
+  TOKEN: ${{ secrets.TOKEN }}
+  
+# Controls when the workflow will run
+on: 
+  # Triggers the workflow on push request events for the master branch
+  # push:
+  #   branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:  
+
+jobs:
+  Deploy_runners:
+    runs-on: ubuntu-latest
+    steps:
+
+        # Install helm
+      - name: Install helm
+        run: |
+          curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+          sudo apt-get install apt-transport-https --yes
+          echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+          sudo apt-get update
+          sudo apt-get install helm
+
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Set up Helm repository
+        run: helm repo add gitlab https://charts.gitlab.io
+
+      - name: Update Kubeconfig
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} --kubeconfig ./runner-configuration/config
+
+      - name: Apply Helm Chart
+        run: >
+          helm upgrade gitlab-runner-test gitlab/gitlab-runner 
+          --namespace gitlab-runner 
+          --set runnerRegistrationToken=${{ env.TOKEN }} 
+          --values ./runner-configuration/values.yaml 
+          --kubeconfig ./runner-configuration/config
+      
+      - name: Remove kubeconfig
+        run: rm -v ./runner-configuration/config
+
+
+
+
+       
+  

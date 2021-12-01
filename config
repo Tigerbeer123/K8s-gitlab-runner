@@ -1,0 +1,27 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeE1USXdNVEExTWpJMU1sb1hEVE14TVRFeU9UQTFNakkxTWxvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTUJkCi9Zb3B0eGpMRlhzTWFGYS9iamxDM3hFR1Vrek82dmJYS0RweGZBWGpJRmhlT09FOFJ4Z0hieTdGc3djRUNjbmEKY3hWQVFYQW9PQ2tOYW5jMWNwcDRuUzRMb3QvZFNZOHhsZFpaMy9DaHRrZnZWc1M1WVVWVUlydHRZQmJmTmFSZwpZbjBUeW5ISTVQWlYybURoWEpMRi9NNGtiNU1nVWNyWWg5QWZaOUEwNHFmNDFtZEI1ZTcxMkR5T2hoR3ZVUGJPCjNIQlpkWjcxVkM3bjBaR2RLdFRWOGthZ05jRk56ZTJxOXZSV0JoS0YxRnZjZ0NpVmNiWkcza3p2WmJGcTNIbnIKMkliQy9maThDak83UmZkVDJGVjV2aUYya2ZQc3crYXFvN0NvK09SVUxCMVR3dFQzOC8vOGIxNWRBcEtlT3JNVAo5QXp5aHA3c0pTTmlKRDBCaG5NQ0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZCWlFYYnVsNEZEdFU2TUx6YVIxL0c5Q3l6RW5NQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFCN3JGenlPc2VORXE1SlBNdXA2WGdCZGwrUlg5ZjZuWjdjN1NSeXJ5Q0xZeE1nVWFVbApkdUhoZ2FBYlpMZTIrTm9DV3IrVFZHbzlJN202a3VmY25JQWM1V3M3elJSK21CNnhMQkx6TWw3RkNwRTVlYytoCmpoUE1VSS81NVB6QVJuZGpYRlJEajc4Vy9tWGt2VEM0STVzNWhIWkUrSk9RQ1Bndnd1MjU0ZHE1Y0NQaGZrZ2oKbkpwc01JUFRHTmwzZStxZkdvQ3I2dVlVWjM1RTdQWjJzY0JBdE4xd2JXa2RJQUJIa1A2dTBaU3h6TTlCN29MTgozelVTRHZRTXJNT1VtUkRudDNVaWtuTUhieUNTb3JlekF1WmFIc1JzeXBHbkJxdjdobUllNHRaV2RtZTBMd2xaClBNOXU4NG9EQ3BSSEw3ZEZ6cTltUXZvb2hBbDNFYmtaYitVUQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    server: https://2856FCCE891967D94E7A0E37CC4EBE2F.yl4.eu-north-1.eks.amazonaws.com
+  name: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+contexts:
+- context:
+    cluster: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+    user: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+  name: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+current-context: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+kind: Config
+preferences: {}
+users:
+- name: arn:aws:eks:eu-north-1:267235519122:cluster/gitlab-runner-eks-cluster
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1alpha1
+      args:
+      - --region
+      - eu-north-1
+      - eks
+      - get-token
+      - --cluster-name
+      - gitlab-runner-eks-cluster
+      command: aws
