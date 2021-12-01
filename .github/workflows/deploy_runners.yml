@@ -4,8 +4,6 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: eu-north-1
-  ECR_REPOSITORY: gitlab-runners
-  IMAGE_TAG: latest
   EKS_CLUSTER: gitlab-runner-eks-cluster
   GITLAB_TOKEN: ${{ secrets.TOKEN }}
   
@@ -42,10 +40,6 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
       - name: Set up Helm repository
         run: helm repo add gitlab https://charts.gitlab.io
 
@@ -53,11 +47,11 @@ jobs:
         run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }} --kubeconfig ./runner-configuration/config
 
       - name: Apply Helm Chart
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: >
           helm upgrade gitlab-runner-test gitlab/gitlab-runner 
+          --install
           --namespace gitlab-runner 
+          --create-namespace
           --set runnerRegistrationToken=${{ env.GITLAB_TOKEN }}
           --values ./runner-configuration/values.yaml 
           --kubeconfig ./runner-configuration/config
