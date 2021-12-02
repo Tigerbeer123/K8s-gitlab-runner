@@ -287,6 +287,31 @@ runners:
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
         image = "267235519122.dkr.ecr.eu-north-1.amazonaws.com/gitlab-runners:latest"
+        cpu_request = "100m"
+        cpu_request_overwrite_max_allowed = "200m"
+        cpu_limit = "200m"
+        cpu_limit_overwrite_max_allowed = "400m"
+        memory_request = "128Mi"
+        memory_request_overwrite_max_allowed = "256Mi"
+        memory_limit = "256Mi"
+        memory_limit_overwrite_max_allowed = "512Mi"
+        helper_cpu_request = "100m"
+        helper_cpu_limit = "200m"
+        helper_memory_request = "128Mi"
+        helper_memory_limit = "256Mi"
+        helper_image_flavor = "ubuntu"
+        service_cpu_request = "100m"
+        service_cpu_limit = "200m"
+        service_memory_request = "128Mi"
+        service_memory_limit = "256Mi"
+        [runners.kubernetes.affinity]
+          [runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution]
+            [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms]]
+              [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_expressions]]
+                key = "Environment"
+                operator = "In"
+                values = ["eks-gitlab-runners"]
+
 
   ## Which executor should be used
   ##
@@ -406,11 +431,11 @@ securityContext:
 ##
 resources: 
   limits:
-    memory: 1024Mi
+    memory: 512Mi
     cpu: 500m
   requests:
-    memory: 512Mi
-    cpu: 250m
+    memory: 256Mi
+    cpu: 200m
 
 ## Affinity for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
