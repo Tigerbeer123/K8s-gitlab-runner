@@ -286,7 +286,7 @@ runners:
     [[runners]]
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
-        image = "267235519122.dkr.ecr.eu-north-1.amazonaws.com/gitlab-runners:latest"
+        image = "alpine"
         cpu_request = "100m"
         cpu_request_overwrite_max_allowed = "200m"
         cpu_limit = "200m"

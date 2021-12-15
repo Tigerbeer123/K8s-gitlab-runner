@@ -4,11 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.27"
     }
-
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.0.1"
-    }
   }
 
   backend "s3" {
@@ -25,5 +20,3 @@ provider "aws" {
   profile = var.profile
   region  = var.region
 }
-
-
