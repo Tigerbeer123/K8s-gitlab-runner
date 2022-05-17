@@ -3,7 +3,7 @@ name: Deploy_runners
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_REGION: eu-north-1
+  AWS_REGION: cn-north-4
   EKS_CLUSTER: gitlab-runner-eks-cluster
   GITLAB_TOKEN: ${{ secrets.TOKEN }}
   
